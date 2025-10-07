@@ -6,8 +6,8 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-      POSTGRES_DB:       "ostock_dev"
+      POSTGRES_PASSWORD: "pass"
+      POSTGRES_DB:       "ostock_test"
     volumes:
         - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
         - ./data.sql:/docker-entrypoint-initdb.d/2-data.sql
@@ -23,9 +23,12 @@ services:
   configserver:
     image: ostock/configserver:0.0.1-SNAPSHOT
     ports:
-       - "8071:8071"
+       - "8089:8089"
     environment:
       ENCRYPT_KEY: "fje83Ki8403Iod87dne7Yjsl3THueh48jfuO9j4U2hf64Lo"
+      SERVER_PORT: "8089"
+      SPRING_CLOUD_CONFIG_SERVER_GIT_URI: https://github.com/DanielleSamuels/Assignment-5.1
+      SPRING_CLOUD_CONFIG_SERVER_GIT_DEFAULT_LABEL: "main"
     networks:
       backend:
         aliases:
@@ -33,11 +36,9 @@ services:
   licensingservice:
     image: ostock/licensing-service:0.0.2-SNAPSHOT
     environment:
-      PROFILE: "dev"
-      CONFIGSERVER_URI: "http://configserver:8071"
-      CONFIGSERVER_PORT:   "8071"
-      DATABASESERVER_PORT: "5432"
-      ENCRYPT_KEY:       "IMSYMMETRIC"
+      SPRING_APPLICATION_NAME: "licensing-service"
+      SPRING_PROFILES_ACTIVE: "test"
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://configserver:8089"
     depends_on:
       database:
         condition: service_healthy
