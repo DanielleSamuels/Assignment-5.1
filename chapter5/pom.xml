@@ -20,6 +20,8 @@
 
     <properties>
 	 <docker.image.prefix>ostock</docker.image.prefix>
+      <lombok.version>1.18.34</lombok.version>
+      <maven.compiler.release>11</maven.compiler.release>
 	</properties>
 
   <modules>
@@ -27,6 +29,25 @@
     <module>licensing-service</module>
   </modules>
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.11.0</version>
+          <configuration>
+            <release>${maven.compiler.release}</release>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+              </path>
+            </annotationProcessorPaths>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>com.spotify</groupId>

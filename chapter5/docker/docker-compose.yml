@@ -21,20 +21,29 @@ services:
       timeout: 5s
       retries: 5
   configserver:
+    build:
+      context: ../configserver
+      dockerfile: Dockerfile
     image: ostock/configserver:0.0.1-SNAPSHOT
+    container_name: configserver
     ports:
        - "8089:8089"
     environment:
       ENCRYPT_KEY: "fje83Ki8403Iod87dne7Yjsl3THueh48jfuO9j4U2hf64Lo"
       SERVER_PORT: "8089"
-      SPRING_CLOUD_CONFIG_SERVER_GIT_URI: https://github.com/DanielleSamuels/Assignment-5.1
+      SPRING_CLOUD_CONFIG_SERVER_GIT_URI: https://github.com/DanielleSamuels/Assignment-5.1.git
       SPRING_CLOUD_CONFIG_SERVER_GIT_DEFAULT_LABEL: "main"
+      SPRING_CLOUD_CONFIG_SERVER_GIT_SEARCH_PATHS: "config"
     networks:
       backend:
         aliases:
           - "configserver"
   licensingservice:
+    build:
+      context: ../licensing-service
+      dockerfile: Dockerfile
     image: ostock/licensing-service:0.0.2-SNAPSHOT
+    container_name: licensingservice
     environment:
       SPRING_APPLICATION_NAME: "licensing-service"
       SPRING_PROFILES_ACTIVE: "test"
