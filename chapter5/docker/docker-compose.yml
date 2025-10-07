@@ -31,9 +31,10 @@ services:
     environment:
       ENCRYPT_KEY: "fje83Ki8403Iod87dne7Yjsl3THueh48jfuO9j4U2hf64Lo"
       SERVER_PORT: "8089"
-      SPRING_CLOUD_CONFIG_SERVER_GIT_URI: https://github.com/DanielleSamuels/Assignment-5.1.git
+      SPRING_PROFILES_ACTIVE: "git"
+      SPRING_CLOUD_CONFIG_SERVER_GIT_URI: "https://github.com/DanielleSamuels/Assignment-5.1.git"
       SPRING_CLOUD_CONFIG_SERVER_GIT_DEFAULT_LABEL: "main"
-      SPRING_CLOUD_CONFIG_SERVER_GIT_SEARCH_PATHS: "config"
+      SPRING_CLOUD_CONFIG_SERVER_GIT_SEARCH_PATHS: "chapter5/config"
     networks:
       backend:
         aliases:
@@ -47,7 +48,7 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "licensing-service"
       SPRING_PROFILES_ACTIVE: "test"
-      SPRING_CONFIG_IMPORT: "optional:configserver:http://configserver:8089"
+      SPRING_CLOUD_CONFIG_URI: "http://configserver:8089"
     depends_on:
       database:
         condition: service_healthy
